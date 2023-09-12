@@ -65,7 +65,7 @@ def transform(raw_data, date):
         logging.INFO("Null values found")
     if not df["played_at"].is_unique:
         logging.INFO("A value from played_at is not unique")
-    #clean_df = df[pd.to_datetime(df["played_at"]).dt.date == date]
+    
 
     return df
 
@@ -77,15 +77,14 @@ def load(df):
         df (pd.DataFrame): Clean dataframe
     """
     engine = create_engine(DB_CONNSTR)
-    #conn = sqlite3.connect('my_played_tracks.sqlite')
-    #cursor = conn.cursor()
+ 
     try:
-        print("EN EL TRY")
+      
         df.to_sql(TABLENAME, con=engine, if_exists='append',index=False)
+         logging.INFO("Loading complete")
     except:
-        print("oops")
-    print("llegamos")
-    #conn.close()
+        logging.ERROR("Something went wrong during the loading")
+   
 
 
 
@@ -101,4 +100,4 @@ if __name__ == "__main__":
     
     #LOAD
     load(clean_df)
-    logging.INFO("Loading complete")
+ 
